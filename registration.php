@@ -10,7 +10,7 @@
 	<body>
 
 		<div class="container">
-			<form>
+			<form class="a_MyForm">
 				<input type="hidden" name="action" value="registration">	
 				<div class="form-group">
 					<label for="fname">First Name</label>
@@ -49,7 +49,28 @@
 			
 			//$(selector).action();
 			$(document).ready(function(){
-				alert('ok');
+				//alert('ok');
+				
+				$('.a_MyForm').submit(function(e){
+					e.preventDefault();
+					//alert('okok');
+					
+					var d = $(this).serialize(); //name=value&name=value
+					
+					
+					$.ajax({
+						//property:v
+						url:'http://localhost/anil/ajax_registration/ajax.php',
+						data:d ,
+						//method
+						success:function(){
+							
+						}
+						
+					});
+					
+				});
+				
 			});
 			
 		</script>
