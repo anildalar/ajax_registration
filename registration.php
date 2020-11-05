@@ -37,7 +37,7 @@
 					  <input class="form-check-input" type="checkbox"> Remember me
 					</label>
 				</div>
-				<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+				<button type="submit" name="submit" class="btn btn-primary"><span class="spinner-grow spinner-grow-sm"></span>Submit</button>
 			</form>
 		</div>
 		
@@ -51,8 +51,14 @@
 			$(document).ready(function(){
 				//alert('ok');
 				
+				$('.spinner-grow').hide();
+				
 				$('.a_MyForm').submit(function(e){
 					e.preventDefault();
+					console.log('Clicked');
+					//Disable the Submit Button
+					let form = $(this);
+					form.find(':button[type="submit"]').prop('disabled', true);
 					//alert('okok');
 					
 					var d = $(this).serialize(); //name=value&name=value
@@ -63,8 +69,27 @@
 						url:'http://localhost/anil/ajax_registration/ajax.php',
 						data:d ,
 						//method
-						success:function(){
+						beforeSend:function(xhr){
+							$('.spinner-grow').show();
+						},
+						success:function(result,status,xhr){
+							console.log(result);
+							//Convert JSON String -> JSON/JS Object
+							result = JSON.parse(result);
+							console.log(result);							
+							//alert(result.msg);
 							
+							if(result.status == 401){
+								
+							}
+							if(result.status == 402){
+								alert(result.msg);
+							}
+							if(result.status == 200){
+								alert(result.msg);
+								form.find(':button[type="submit"]').prop('disabled', false);
+								$('.spinner-grow').hide();
+							}
 						}
 						
 					});
